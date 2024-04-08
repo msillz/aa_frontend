@@ -9,7 +9,8 @@ function App() {
 
   return (
     <>
-    <MantineProvider defaultColorScheme="dark">
+    {/* defaultColorScheme="dark" */}
+    <MantineProvider>
       <HeaderSimple></HeaderSimple>
       <DataExplorer></DataExplorer>
     </MantineProvider>

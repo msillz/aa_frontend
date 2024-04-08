@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Container, Group, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderSimple.module.css';
-import logo from '../../assets/aventine_logo.png' 
+import logo from '../../assets/round-logo-medium.png' 
 
 
 const links = [
