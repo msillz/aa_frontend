@@ -5,6 +5,23 @@ import InstImg from '../assets/data_inst_black.png'; // Adjust the path accordin
 function DataSelectionModal() {
   return (
     <>
+      <MainSelector></MainSelector>
+    </>
+  )
+}
+
+function InstSelector1a(){
+  <h2>Hello There</h2>
+  // AI Generator
+  // Create from Scratch
+  // Add from template
+  // Load from saved
+}
+
+
+function MainSelector(){
+  return (
+    <>
     <h2 style={{marginTop: '0'}}>Select Data Type</h2>
     <Grid gutter="2rem">
       <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
@@ -90,11 +107,6 @@ function DataSelectionModal() {
     </Grid>
     </>
   )
-}
-
-
-function Selector1(){
-  
 }
 
 export default DataSelectionModal
