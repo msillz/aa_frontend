@@ -1,6 +1,8 @@
 import { css } from '@emotion/css';
-import { Grid, Card, Image, Text, Badge, Button, Group, Transition } from '@mantine/core';
-import { useState } from 'react';
+import { Modal, Grid, Card, Image, Text, Badge, Button, Group, Transition } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+
+import { useState, useEffect } from 'react';
 import InstImg from '../assets/banks.png'; // Adjust the path according to your file structure
 import BranchImg from '../assets/branches.png'
 import ForecastImg from '../assets/forecasting.png'
@@ -9,19 +11,34 @@ import CreateReportImg from '../assets/create_report.png'
 import TemplateImg from '../assets/template.png'
 import SavedImg from '../assets/saved.png'
 
-export default function DataSelectionModal() {
+
+
+export default function DataSelectionModal({isModalOpen, setIsModalOpen}) {
 
   const [prevStates, setStateArray] = useState([]);
   const [currState, setModalState] = useState(0);
 
-  function updateState(state){
-    setModalState(state);
-    document.getElementById('data-selection-body')?.querySelectorAll('div[data-state-number]').forEach(elem=>{
-      elem.removeAttribute('data-show');
-    });
-    document.getElementById('data-selection-body')?.querySelector(`div[data-state-number="${state}"]`)?.setAttribute('data-show', true);
-    console.log(state);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  function goBack() {
+
+    // Check if there are previous states to revert to
+    if (prevStates.length > 0) {
+      const lastState = prevStates[prevStates.length - 1]; // Get the last state
+      setModalState(lastState); // Set the current state to the last state
+      setStateArray(prevStates => prevStates.slice(0, -1)); // Remove the last state from the array
+    }
   }
+
+  function updateState(newState){
+    if (newState !== currState) { // Check if the new state is different from the current state
+      setModalState(newState); // Update the current state
+      setStateArray(prevStates => [...prevStates, currState]); // Add the current state to the previous states array
+    }
+  }
+
 
   const showHide = css`
     opacity: 0;
@@ -37,21 +54,43 @@ export default function DataSelectionModal() {
     }
   `
 
+  // The Add Data Modal
+  const backButton = currState !== 0 && (
+    <Button
+      onClick={goBack} // Ensure goBack function is defined and accessible in this scope
+      data-type="backButton"
+      color="gray"
+      className={css`position: absolute; top: 1rem; z-index: 1000;`}
+    >
+      Back
+    </Button>
+  );
+
   return (
     <>
-      <div id="data-selection-body">
-        {currState !== 0 && (
-          <Button color="gray" className={css`position: absolute; top: 1rem; z-index: 1000;`}>Back</Button>
-        )}
+    <Modal
+          opened={isModalOpen}
+          onClose={closeModal}
+          keepMounted={false}
+          size='xxl'
+          title={backButton}
+          overlayProps={{
+            backgroundOpacity: 0.55,
+            blur: 1,
+          }}
+          className={css`position: relative;`}
+        >
+          <div id="data-selection-body">
+            <div className={showHide} {...(currState === 0 ? {'data-show': 'true'} : {})}>
+              <MainSelector state_update={updateState}></MainSelector>
+            </div>
 
-        <div className={showHide} data-show data-state-number={0}>
-          <MainSelector state_update={updateState}></MainSelector>
-        </div>
-
-        <div className={showHide} data-state-number={1}>
-          <InstitutionalDataSelector state_update={updateState}></InstitutionalDataSelector>
-        </div>
-      </div>
+            <div className={showHide} {...(currState === 1 ? {'data-show': 'true'} : {})}>
+              <InstitutionalDataSelector state_update={updateState}></InstitutionalDataSelector>
+            </div>
+          </div>
+      </Modal>
+      
     </>
   )
 }

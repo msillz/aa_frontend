@@ -6,6 +6,8 @@ import InstitutionalSelectionPanel from "../components/InstitutionalSelectionPan
 import DataElementList from "../controllers/dataElementControllers";
 import DataSelectionModal from '../controllers/DataSelectionModal';
 import { css } from '@emotion/css';
+import { useState, useEffect } from 'react';
+
 
 
 function DataExplorer() {
@@ -32,26 +34,17 @@ function DataExplorer() {
     overflow: hidden;
   `
 
-  // The Add Data Modal
-  const [opened, { open, close }] = useDisclosure(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Function to toggle the modal's visibility
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <>
 
-      <Modal
-          opened={opened}
-          onClose={close}
-          keepMounted={true}
-          size='xxl'
-          overlayProps={{
-            backgroundOpacity: 0.55,
-            blur: 1,
-          }}
-          className={css`position: relative;`}
-        >
-          <DataSelectionModal></DataSelectionModal>
-      </Modal>
+      <DataSelectionModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
 
       <div className={mainGridStyle}>
 
@@ -59,7 +52,7 @@ function DataExplorer() {
         <div className={componentListStyle}>
 
           <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-            <Button variant="outline" size="sm" radius="xl" style={{width: 'fit-content'}} onClick={open}>Add Data +</Button>
+            <Button variant="outline" size="sm" radius="xl" style={{width: 'fit-content'}} onClick={toggleModal}>Add Data +</Button>
             <Button variant="outline" size="sm" radius="xl" style={{width: 'fit-content'}} onClidk={DataElementList.addNewTab}><SettingsIcon></SettingsIcon></Button>
           </div>
 
