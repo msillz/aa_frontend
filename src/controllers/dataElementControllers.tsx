@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import chartElement from './chartElement';
 import { useState } from 'react';
 import { Text, Paper } from '@mantine/core';
+import { useEffect } from 'react'
 
 
 // Define the functional component
@@ -17,6 +18,13 @@ export default function DataElementList({}){
         const newItem = new chartElement(`newItem${items.length}`);
         setItems((prevItems) => [...prevItems, newItem]);
     };
+    
+    useEffect(() =>{
+      let lastElem = Array.from(document.getElementById('element_list').querySelectorAll('div[draggable]'));
+      if(lastElem.length){
+        lastElem.slice(-1)[0].scrollIntoView({ behavior: 'smooth' });
+      }
+    }, [items]);
 
     // Handler for drag end event
     const onDragEnd = (result: any) => { // Consider using the correct type for 'result' based on the library's documentation
@@ -29,8 +37,7 @@ export default function DataElementList({}){
 
     // Render method of the functional component
     return (
-        <div>
-            <div style={{height: '2rem', width: '2rem', backgroundColor: 'red',}} onClick={addNewTab}></div>
+        <div id="element_list">
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="dnd-list" direction="vertical">
                     {(provided) => (
@@ -40,7 +47,7 @@ export default function DataElementList({}){
                                     {(provided) => (
                                         <div
                                             className={css`
-                                                width: 100%;
+                                              width: 100%;
                                                 margin-bottom: 1rem;`}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
@@ -71,7 +78,7 @@ function DataComponentTab(props:{componentType:string, selected:boolean}) {
       &[data-selected="true"]{
         border: 0.2rem solid #54b7ff;
       }
-    `
+    `;
 
     return (
       <>

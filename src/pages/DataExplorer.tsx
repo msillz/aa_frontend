@@ -1,15 +1,16 @@
-import styled from "styled-components";
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, ScrollArea, Tooltip } from '@mantine/core';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import InstitutionalSelectionPanel from "../components/InstitutionalSelectionPanel";
 import DataElementList from "../controllers/dataElementControllers";
+import DataSelectionModal from '../controllers/DataSelectionModal';
+import { css } from '@emotion/css';
 
 
 function DataExplorer() {
 
-  const MainGrid = styled.div`
+  const mainGridStyle = css`
     padding-top: 4rem;
     display: grid;
     grid-template-columns: 18rem 22rem 1fr;
@@ -18,7 +19,7 @@ function DataExplorer() {
     max-height: 100vh;
   `
 
-  const ComponentListWrapper = styled.div`
+  const componentListStyle = css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -41,24 +42,25 @@ function DataExplorer() {
       <Modal
           opened={opened}
           onClose={close}
-          title="Element Creation"
           keepMounted={true}
+          size='xxl'
           overlayProps={{
             backgroundOpacity: 0.55,
             blur: 1,
           }}
+          className={css`position: relative;`}
         >
-          {/* Modal content */}
+          <DataSelectionModal></DataSelectionModal>
       </Modal>
 
-      <MainGrid>
+      <div className={mainGridStyle}>
 
         {/* Component List */}
-        <ComponentListWrapper>
+        <div className={componentListStyle}>
 
           <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
             <Button variant="outline" size="sm" radius="xl" style={{width: 'fit-content'}} onClick={open}>Add Data +</Button>
-            <Button variant="outline" size="sm" radius="xl" style={{width: 'fit-content'}}><SettingsIcon></SettingsIcon></Button>
+            <Button variant="outline" size="sm" radius="xl" style={{width: 'fit-content'}} onClidk={DataElementList.addNewTab}><SettingsIcon></SettingsIcon></Button>
           </div>
 
           <ScrollArea style={{padding: 0, margin: 0, width: '100%', marginTop: '2rem', marginBottom: '2rem', paddingRight: '1rem', flex: 1}}>
@@ -69,7 +71,7 @@ function DataExplorer() {
             <div style={{marginRight: '.5rem'}}>Generate Report</div>
             <AssignmentIcon fontSize="small"></AssignmentIcon>
           </Button>
-        </ComponentListWrapper>
+        </div>
         
         {/* Chart / Table / Map Display Area */}
         <div style={{gridColumn: '2/3', gridRow: '1/2'}}>
@@ -77,7 +79,7 @@ function DataExplorer() {
         </div>
         <div style={{backgroundColor: '#bbb', gridColumn: '3/4', gridRow: '1/2'}}>Hey</div>
 
-      </MainGrid>
+      </div>
     </>
   )
 }

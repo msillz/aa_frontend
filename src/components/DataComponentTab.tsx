@@ -1,10 +1,8 @@
-import { useState } from 'react'
 import { Text, Paper } from '@mantine/core';
 import { css } from '@emotion/css';
 
 function DataComponentTab(props:{componentType:string, selected:boolean}) {
 
-  const [count, setCount] = useState(0)
 
   const tabStyle = css`
     cursor: grab;

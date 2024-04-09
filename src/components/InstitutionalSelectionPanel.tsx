@@ -12,8 +12,8 @@ function InstitutionalSelectionPanel() {
 
   return (
     <>
-    <div>
-        <h3 style={{textAlign: "center"}}>Data Component 1</h3>
+    <div style={{marginTop: '2rem'}}>
+        <h3 style={{textAlign: "center", marginTop: "0", marginBotton: "2rem"}}>Data Component 1</h3>
         <Tabs defaultValue="gallery" orientation="horizontal" >
             <Tabs.List grow={true}>
                 <Tabs.Tab value="peers">Peers</Tabs.Tab>
