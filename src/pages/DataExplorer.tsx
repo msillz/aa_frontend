@@ -42,13 +42,13 @@ function DataExplorer() {
       <Modal
           opened={opened}
           onClose={close}
-          title=""
           keepMounted={true}
-          size='xl'
+          size='xxl'
           overlayProps={{
             backgroundOpacity: 0.55,
             blur: 1,
           }}
+          className={css`position: relative;`}
         >
           <DataSelectionModal></DataSelectionModal>
       </Modal>
