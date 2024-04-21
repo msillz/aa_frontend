@@ -88,6 +88,11 @@ export default function DataSelectionModal({isModalOpen, setIsModalOpen}) {
             <div className={showHide} {...(currState === 1 ? {'data-show': 'true'} : {})}>
               <InstitutionalDataSelector state_update={updateState}></InstitutionalDataSelector>
             </div>
+
+            <div className={showHide} {...(currState === 2 ? {'data-show': 'true'} : {})}>
+              <FromTemplateSelector state_update={updateState}></FromTemplateSelector>
+            </div>
+
           </div>
       </Modal>
       
@@ -140,20 +145,21 @@ function InstitutionalDataSelector({state_update}){
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
         <ModalNavCard 
-            imgElem={CreateReportImg} 
-            title={"Create from Scratch"} 
-            description={"Add data from an institutional level. This data includes the call report datasets from both the FDIC as well as the NCUA."}
-            button_name={"Choose Blank Element"}
-            default_button={false}
-            state_fxn={state_update}
-          ></ModalNavCard>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
-        <ModalNavCard 
             imgElem={TemplateImg} 
             title={"From Template"} 
             description={"Add data from an institutional level. This data includes the call report datasets from both the FDIC as well as the NCUA."}
             button_name={"Choose Starting Template"}
+            default_button={false}
+            state_fxn={state_update}
+            next_state={2}
+          ></ModalNavCard>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+        <ModalNavCard 
+            imgElem={CreateReportImg} 
+            title={"Create from Scratch"} 
+            description={"Add data from an institutional level. This data includes the call report datasets from both the FDIC as well as the NCUA."}
+            button_name={"Choose Blank Element"}
             default_button={false}
             state_fxn={state_update}
           ></ModalNavCard>
@@ -208,6 +214,28 @@ function MainSelector({state_update}){
             default_button={false}
             state_fxn={state_update}
           ></ModalNavCard>
+      </Grid.Col>
+    </Grid>
+    </>
+  )
+}
+
+
+
+function FromTemplateSelector({state_update}){
+  return (
+    <>
+    <h2 style={{marginTop: '0'}}>How do you want to add the data?</h2>
+    <Grid gutter="2rem">
+      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}>
+        <ModalNavCard 
+          imgElem={AiImg} 
+          title={"Build with AI"} 
+          description={"Add data from an institutional level. This data includes the call report datasets from both the FDIC as well as the NCUA."}
+          button_name={"Use AI Assistant"}
+          default_button={true}
+          state_fxn={state_update}
+        ></ModalNavCard>
       </Grid.Col>
     </Grid>
     </>
